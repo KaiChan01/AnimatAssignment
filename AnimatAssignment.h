@@ -15,7 +15,6 @@ namespace BGE
 		int numberOfCreatures;
 		int numberOfObject;
 		bool floating;
-		bool straightLegs;
 		bool moveSwitch;
 		bool Initialise();
 		void creatureCreature();
