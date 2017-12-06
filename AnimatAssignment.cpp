@@ -10,10 +10,12 @@ AnimatAssignment::AnimatAssignment(void)
 
 bool AnimatAssignment::Initialise()
 {
+	//Set gravity
 	float gravity = -1;
 	floating = false;
 	setGravity(glm::vec3(0, gravity, 0));
 	
+	//Create basic ground physics and camera physics
 	physicsFactory->CreateGroundPhysics();
 	physicsFactory->CreateCameraPhysics();
 	
@@ -28,10 +30,13 @@ bool AnimatAssignment::Initialise()
 	}
 	*/
 	
+	//Generate creature and random objects
 	generateScene(numberOfObject);
 	createCreature(rand() % 5 + 1, glm::vec3(rand() % -100 + 100, rand() % 50 + 20, rand() % -100 + 100));
 
 	elapsed = 10.0f;
+	
+	//A indicator for movement 
 	moveSwitch = true;
 	Game::Initialise();
 	return true;
@@ -56,6 +61,7 @@ void AnimatAssignment::Update()
 		elapsed = 0.0f;
 	}
 
+	//Move the tentacle hinges
 	for (it = octoHinges.begin(); it != octoHinges.end(); it++)
 	{
 		btHingeConstraint * updateHinge = *it;
@@ -118,6 +124,7 @@ void AnimatAssignment::Cleanup()
 
 shared_ptr<PhysicsController> AnimatAssignment::createCreature(int size, glm::vec3 position)
 {
+	//Set required variables
 	glm::vec3 headOrigin = position;
 	float headRadius = 1*size;
 	float foreheadRadius = headRadius*3;
@@ -131,10 +138,16 @@ shared_ptr<PhysicsController> AnimatAssignment::createCreature(int size, glm::ve
 	float bHeight=1.5*size;
 
 	float rotationTheta = 0.0f;
+
+	//Create head
 	shared_ptr < PhysicsController> forehead = physicsFactory->CreateSphere(foreheadRadius, headOrigin + glm::vec3(0,foreheadRadius/2, 0), glm::quat());
 	forehead->rigidBody->setAngularFactor(btVector3(0, 1, 0));
+	
+	//Create main body
 	shared_ptr<PhysicsController> head = physicsFactory->CreateCylinder(headRadius,headRadius, headOrigin, glm::quat());
 	octoHead = head;
+
+	//Prevent head and body from rolling
 	head->rigidBody->setAngularFactor(btVector3(0, 1, 0));
 	//octoHeads.push_back(head);
 	btPoint2PointConstraint * ballSocket = new btPoint2PointConstraint(*forehead->rigidBody, *head->rigidBody, btVector3(0, -headRadius/2, 0), btVector3(0, foreheadRadius, 0));
@@ -143,6 +156,8 @@ shared_ptr<PhysicsController> AnimatAssignment::createCreature(int size, glm::ve
 	shared_ptr<PhysicsController> leg;
 	shared_ptr<PhysicsController> lastLeg;
 
+
+	//Create legs
 	for (int j = 0; j < numberOfLegs; j++)
 	{
 
@@ -179,6 +194,8 @@ shared_ptr<PhysicsController> AnimatAssignment::createCreature(int size, glm::ve
 		dynamicsWorld->addConstraint(testHinge);
 		lastLeg = leg;
 
+
+		//Create leg segments
 		for (int i = 0; i < legSegments; i++)
 		{
 			leg = physicsFactory->CreateBox(bWidth, bHeight, bDepth, firstSetOfLeg + glm::vec3(0, (-bHeight - legSegmentSpace)*(i + 1), 0), glm::angleAxis(((angleOfBoxes*j) + offSetValue), glm::vec3(0, 1, 0))
