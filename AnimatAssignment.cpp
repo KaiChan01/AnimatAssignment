@@ -16,8 +16,9 @@ bool AnimatAssignment::Initialise()
 	
 	physicsFactory->CreateGroundPhysics();
 	physicsFactory->CreateCameraPhysics();
+	
 	numberOfCreatures = 1;
-
+	numberOfObject = 10;
 	/*	The idea of the for loop is that I can simulate many octopus in the BGE, but this requires very powerful processing
 		My laptop cannot render more than 1 octopus
 	
@@ -26,7 +27,8 @@ bool AnimatAssignment::Initialise()
 		createCreature(rand() % 5 + 1, glm::vec3(rand() % -100 + 100, rand() % 50 + 20, rand() % -100 + 100));
 	}
 	*/
-		
+	
+	generateScene(numberOfObject);
 	createCreature(rand() % 5 + 1, glm::vec3(rand() % -100 + 100, rand() % 50 + 20, rand() % -100 + 100));
 
 	elapsed = 10.0f;
@@ -189,4 +191,12 @@ shared_ptr<PhysicsController> AnimatAssignment::createCreature(int size, glm::ve
 		}
 	}
 	return head;
+}
+
+void AnimatAssignment::generateScene(int numberOfObjects)
+{
+	for (int i = 0; i < numberOfObjects ; i++)
+	{
+		physicsFactory->CreateRandomObject(glm::vec3(rand() % -100 + 100, rand() % 50 + 20, rand() % -100 + 100), glm::quat(), glm::vec3(1,1,1));
+	}
 }

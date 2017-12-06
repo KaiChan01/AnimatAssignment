@@ -13,11 +13,13 @@ namespace BGE
 
 		float elapsed;
 		int numberOfCreatures;
+		int numberOfObject;
 		bool floating;
 		bool straightLegs;
 		bool moveSwitch;
 		bool Initialise();
 		void creatureCreature();
+		void generateScene(int numberOfObjects);
 		void Update();
 		void Cleanup();
 		//std::list<shared_ptr<PhysicsController>> octoHeads;
