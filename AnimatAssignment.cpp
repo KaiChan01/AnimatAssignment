@@ -11,7 +11,7 @@ AnimatAssignment::AnimatAssignment(void)
 bool AnimatAssignment::Initialise()
 {
 	float gravity = -1;
-	floating = true;
+	floating = false;
 	setGravity(glm::vec3(0, gravity, 0));
 	
 	physicsFactory->CreateGroundPhysics();
