@@ -8,3 +8,5 @@ To make it work
 2. Download and include these two files in BGE
 3. in BGE's main.cpp #include "AnimatAssignment.h"
 4. Change code in main() to "shared_ptr<Game> game = make_shared<AnimatAssignment>();"
+
+I recieved a grade of 86% for this assignment
